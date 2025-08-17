@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spotify/prestation/auth/pages/singup_or_singin.dart';
 
 import '../../../common/widgets/button/basic_app_button.dart';
 import '../../../core/configs/assets/app_images.dart';
@@ -100,7 +101,7 @@ class ChooseMode extends StatelessWidget {
               const SizedBox(height: 50,),
               BasicAppButton(title: "Continue", onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => const ChooseMode(),));
+                  builder: (context) => const SingUpOrSingIn(),));
               }),
             ],),)
         ],
