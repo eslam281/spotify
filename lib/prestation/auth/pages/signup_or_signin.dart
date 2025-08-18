@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
+import 'package:spotify/prestation/auth/pages/signin.dart';
+import 'package:spotify/prestation/auth/pages/signup.dart';
 
 import '../../../common/widgets/appbbar/app_bar.dart';
 import '../../../core/configs/assets/app_images.dart';
@@ -47,14 +49,16 @@ class SignUpOrSingIn extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 50),
                     child: BasicAppButton(title: "Register", onPressed:() {
-
+                      Navigator.push(context, MaterialPageRoute(builder:
+                          (BuildContext context) => const SignUp(),));
                     },),
                   ),
                 ),
                 const SizedBox(width: 20,),
                   Expanded(flex: 1,
                   child: TextButton(onPressed:() {
-
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const SignIn(),));
                   }, child: const Text("Sign in",
                     style:TextStyle(fontSize:19,fontWeight:FontWeight.bold),)),
                 )

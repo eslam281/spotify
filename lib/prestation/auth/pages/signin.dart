@@ -4,8 +4,8 @@ import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import '../../../common/widgets/appbbar/app_bar.dart';
 import '../../../core/configs/assets/app_images.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class SignIn extends StatelessWidget {
+  const SignIn({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,52 +17,52 @@ class SignUp extends StatelessWidget {
         child: Column(
           crossAxisAlignment:CrossAxisAlignment.center,
           children: [
-          _registerText(),
-          const SizedBox(height: 50,),
-          _fullNameField(context),
-          const SizedBox(height: 20,),
-          _emailField(context),
-          const SizedBox(height: 20,),
-          _passwordField(context),
+            _registerText(),
+            const SizedBox(height: 50,),
+            _fullNameField(context),
+            const SizedBox(height: 20,),
+            _emailField(context),
+            const SizedBox(height: 20,),
+            _passwordField(context),
             const SizedBox(height: 33,),
-            BasicAppButton(title: "Create Account", onPressed: () {
-              
+            BasicAppButton(title: "Sign In", onPressed: () {
+
             },),
-            
-        ],),
+
+          ],),
       ),
 
     );
   }
   Widget _registerText(){
     return const Text("Register",
-    textAlign: TextAlign.center,
-    style: TextStyle(fontSize:25,fontWeight:FontWeight.bold));
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize:25,fontWeight:FontWeight.bold));
   }
   Widget _fullNameField(BuildContext context){
     return TextField(
       decoration:const InputDecoration(
-        hintText:"Full Name"
+          hintText:"Full Name"
       ).applyDefaults(
-        Theme.of(context).inputDecorationTheme
+          Theme.of(context).inputDecorationTheme
       ),
     );
   }
   Widget _emailField(BuildContext context){
     return TextField(
       decoration:const InputDecoration(
-        hintText:"Enter Email"
+          hintText:"Enter Email"
       ).applyDefaults(
-        Theme.of(context).inputDecorationTheme
+          Theme.of(context).inputDecorationTheme
       ),
     );
   }
   Widget _passwordField(BuildContext context){
     return TextField(
       decoration:const InputDecoration(
-        hintText:"Password"
+          hintText:"Password"
       ).applyDefaults(
-        Theme.of(context).inputDecorationTheme
+          Theme.of(context).inputDecorationTheme
       ),
     );
   }
@@ -72,13 +72,13 @@ class SignUp extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-        const Text("Do you have an account? ",style: TextStyle(
-            fontSize: 14,fontWeight: FontWeight.w500)),
-        TextButton(onPressed: () {
+          const Text("Do you have an account? ",style: TextStyle(
+              fontSize: 14,fontWeight: FontWeight.w500)),
+          TextButton(onPressed: () {
 
-        }, child: const Text("Sign In",style: TextStyle(color:Colors.blue
-            ,fontSize: 14,fontWeight: FontWeight.w900),))
-      ],),
+          }, child: const Text("Sign In",style: TextStyle(color:Colors.blue
+              ,fontSize: 14,fontWeight: FontWeight.w900),))
+        ],),
     );
   }
 }
