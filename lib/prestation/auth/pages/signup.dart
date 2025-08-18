@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
+import 'package:spotify/prestation/auth/pages/signin.dart';
 
 import '../../../common/widgets/appbbar/app_bar.dart';
 import '../../../core/configs/assets/app_images.dart';
@@ -37,7 +38,7 @@ class SignUp extends StatelessWidget {
   Widget _registerText(){
     return const Text("Register",
     textAlign: TextAlign.center,
-    style: TextStyle(fontSize:25,fontWeight:FontWeight.bold));
+    style: TextStyle(fontSize:30,fontWeight:FontWeight.bold));
   }
   Widget _fullNameField(BuildContext context){
     return TextField(
@@ -75,7 +76,8 @@ class SignUp extends StatelessWidget {
         const Text("Do you have an account? ",style: TextStyle(
             fontSize: 14,fontWeight: FontWeight.w500)),
         TextButton(onPressed: () {
-
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => const SignIn(),));
         }, child: const Text("Sign In",style: TextStyle(color:Colors.blue
             ,fontSize: 14,fontWeight: FontWeight.w900),))
       ],),

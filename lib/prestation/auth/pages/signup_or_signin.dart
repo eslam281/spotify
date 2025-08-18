@@ -9,8 +9,8 @@ import '../../../core/configs/assets/app_images.dart';
 import '../../../core/configs/assets/app_vectors.dart';
 import '../../../core/configs/theme/app_colors.dart';
 
-class SignUpOrSingIn extends StatelessWidget {
-  const SignUpOrSingIn({super.key});
+class SignUpOrSignIn extends StatelessWidget {
+  const SignUpOrSignIn({super.key});
 
   @override
   Widget build(BuildContext context) {

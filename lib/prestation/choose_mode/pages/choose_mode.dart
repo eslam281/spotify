@@ -101,7 +101,7 @@ class ChooseMode extends StatelessWidget {
               const SizedBox(height: 50,),
               BasicAppButton(title: "Continue", onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => const SignUpOrSingIn(),));
+                  builder: (context) => const SignUpOrSignIn(),));
               }),
             ],),)
         ],
