@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
 
+import '../../../common/widgets/appbbar/app_bar.dart';
 import '../../../core/configs/assets/app_images.dart';
 import '../../../core/configs/assets/app_vectors.dart';
 import '../../../core/configs/theme/app_colors.dart';
 
-class SingUpOrSingIn extends StatelessWidget {
-  const SingUpOrSingIn({super.key});
+class SignUpOrSingIn extends StatelessWidget {
+  const SignUpOrSingIn({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
+        const BasicAppBar(),
         Align(
           alignment:Alignment.topRight,
           child: SvgPicture.asset(AppVectors.topPattern,),
@@ -23,7 +25,7 @@ class SingUpOrSingIn extends StatelessWidget {
         ),
         Align(
           alignment:Alignment.bottomLeft,
-          child: Image.asset(AppImages.authBG,scale:.8,),
+          child: Image.asset(AppImages.authBG,scale:.9,),
         ),
         Align(
           alignment:Alignment.center,
@@ -40,11 +42,10 @@ class SingUpOrSingIn extends StatelessWidget {
               textAlign:TextAlign.center,),
               const SizedBox(height: 30,),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                 Expanded(flex: 1,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 40),
+                    padding: const EdgeInsets.only(left: 50),
                     child: BasicAppButton(title: "Register", onPressed:() {
 
                     },),
@@ -55,13 +56,12 @@ class SingUpOrSingIn extends StatelessWidget {
                   child: TextButton(onPressed:() {
 
                   }, child: const Text("Sign in",
-                    style:TextStyle(fontSize:19,fontWeight:FontWeight.w500),)),
+                    style:TextStyle(fontSize:19,fontWeight:FontWeight.bold),)),
                 )
               ],)
               ]
           )
         ),
-
       ],),
     );
   }
