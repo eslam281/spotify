@@ -6,6 +6,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spotify/prestation/choose_mode/bloc/theme_cubit.dart';
 import 'package:spotify/prestation/splash/pages/splash.dart';
+import 'package:spotify/service_locator.dart';
 
 import 'core/configs/theme/app_theme.dart';
 import 'firebase_options.dart';
@@ -20,6 +21,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
