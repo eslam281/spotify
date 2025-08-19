@@ -28,6 +28,8 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
     ),
+      snackBarTheme:const SnackBarThemeData(backgroundColor:AppColors.grey,
+          contentTextStyle:TextStyle(color:Colors.black ) )
   );
   static final ThemeData darkTheme = ThemeData(
     primaryColor: AppColors.primary,
@@ -54,5 +56,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
     ),
+      snackBarTheme:const SnackBarThemeData(backgroundColor:AppColors.grey,
+          contentTextStyle:TextStyle(color:Colors.black ) )
   );
 }

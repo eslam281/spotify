@@ -58,7 +58,7 @@ class SignUpOrSignIn extends StatelessWidget {
                   Expanded(flex: 1,
                   child: TextButton(onPressed:() {
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const SignIn(),));
+                      builder: (context) =>  SignIn(),));
                   }, child: const Text("Sign in",
                     style:TextStyle(fontSize:19,fontWeight:FontWeight.bold),)),
                 )

@@ -22,39 +22,41 @@ class SignUp extends StatelessWidget {
       appBar: BasicAppBar(title: Image.asset(AppImages.logo,scale:1.8,),),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 50,horizontal: 30),
-        child: Column(
-          crossAxisAlignment:CrossAxisAlignment.center,
-          children: [
-          _registerText(),
-          const SizedBox(height: 50,),
-          _fullNameField(context),
-          const SizedBox(height: 20,),
-          _emailField(context),
-          const SizedBox(height: 20,),
-          _passwordField(context),
-            const SizedBox(height: 33,),
-            BasicAppButton(title: "Create Account", onPressed: ()async {
-              var result =await sl<SignUpUseCase>().call(
-                param: CreateUserReq(
-                    fullName: _fullName.text.toString(),
-                    email: _email.text.toString(),
-                    password: _password.text.toString()
-                )
-              );
-              result.fold(
-          (l){
-                  var snackbar = SnackBar(content: Text(l));
-                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                 }, 
-          (r) {
-                  Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (context) => const RootPage(),),
-                        (route) => false,);
-                },
-              );
-            },),
-            
-        ],),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment:CrossAxisAlignment.center,
+            children: [
+            _registerText(),
+            const SizedBox(height: 50,),
+            _fullNameField(context),
+            const SizedBox(height: 20,),
+            _emailField(context),
+            const SizedBox(height: 20,),
+            _passwordField(context),
+              const SizedBox(height: 33,),
+              BasicAppButton(title: "Create Account", onPressed: ()async {
+                var result =await sl<SignUpUseCase>().call(
+                  param: CreateUserReq(
+                      fullName: _fullName.text.toString(),
+                      email: _email.text.toString(),
+                      password: _password.text.toString()
+                  )
+                );
+                result.fold(
+            (l){
+                    var snackbar = SnackBar(content: Text(l));
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                   }, 
+            (r) {
+                    Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (context) => const RootPage(),),
+                          (route) => false,);
+                  },
+                );
+              },),
+              
+          ],),
+        ),
       ),
 
     );
@@ -104,7 +106,7 @@ class SignUp extends StatelessWidget {
             fontSize: 14,fontWeight: FontWeight.w500)),
         TextButton(onPressed: () {
           Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => const SignIn(),));
+            builder: (context) =>  SignIn(),));
         }, child: const Text("Sign In",style: TextStyle(color:Colors.blue
             ,fontSize: 14,fontWeight: FontWeight.w900),))
       ],),
