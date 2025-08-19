@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:spotify/domain/repository/auth/auth.dart';
 
 import '../../../service_locator.dart';
@@ -12,8 +13,8 @@ class AuthRepositoryImpl extends AuthRepository{
   }
 
   @override
-  Future<void> signup(CreateUserReq createuserReq)async {
-    await sl<AuthFirebaseService>().signup(createuserReq);
+  Future<Either> signup(CreateUserReq createuserReq)async {
+    return await sl<AuthFirebaseService>().signup(createuserReq);
   }
 
 }

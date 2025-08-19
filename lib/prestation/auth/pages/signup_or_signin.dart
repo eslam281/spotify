@@ -50,7 +50,7 @@ class SignUpOrSignIn extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 50),
                     child: BasicAppButton(title: "Register", onPressed:() {
                       Navigator.push(context, MaterialPageRoute(builder:
-                          (BuildContext context) => const SignUp(),));
+                          (BuildContext context) =>   SignUp(),));
                     },),
                   ),
                 ),
