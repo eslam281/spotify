@@ -3,7 +3,8 @@ import 'package:spotify/common/helpers/is_dark_mode.dart';
 
 class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
-  const BasicAppBar({super.key, this.title});
+  final bool? showArow;
+  const BasicAppBar({super.key, this.title, this.showArow =true});
 
   @override
   Widget build(BuildContext context) {
@@ -11,18 +12,19 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       title: title,centerTitle: true,
-      leading: IconButton(
+      leading: showArow! ? IconButton(
         onPressed: () {
           Navigator.pop(context);
         },
         icon: Container(
-          width: 50, height: 50,
-          decoration: BoxDecoration(
-              color:context.isDarkMode? Colors.white.withAlpha(8):Colors.black.withAlpha(10),
-              shape: BoxShape.circle),
+            width: 50, height: 50,
+            decoration: BoxDecoration(
+                color:context.isDarkMode? Colors.white.withAlpha(8):Colors.black.withAlpha(10),
+                shape: BoxShape.circle),
             child: const Icon(Icons.arrow_back_ios_new
               ,size: 15,)),
       )
+          : null,
     );
   }
 
