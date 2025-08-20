@@ -7,7 +7,7 @@ import '../../../common/widgets/appbbar/app_bar.dart';
 import '../../../core/configs/assets/app_images.dart';
 import '../../../data/models/auth/signin_user_req.dart';
 import '../../../service_locator.dart';
-import '../../root/pages/root.dart';
+import '../../home/pages/home.dart';
 
 class SignIn extends StatelessWidget {
    SignIn({super.key});
@@ -44,7 +44,7 @@ class SignIn extends StatelessWidget {
                 },
                     (r) {
                   Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (context) => const RootPage(),),
+                    MaterialPageRoute(builder: (context) => const HomePage(),),
                         (route) => false,);
                 },
               );

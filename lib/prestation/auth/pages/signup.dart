@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import 'package:spotify/data/models/auth/create_user_req.dart';
 import 'package:spotify/prestation/auth/pages/signin.dart';
-import 'package:spotify/prestation/root/pages/root.dart';
 
 import '../../../common/widgets/appbbar/app_bar.dart';
 import '../../../core/configs/assets/app_images.dart';
 import '../../../domain/usecases/auth/signup.dart';
 import '../../../service_locator.dart';
+import '../../home/pages/home.dart';
 
 class SignUp extends StatelessWidget {
    SignUp({super.key});
@@ -49,7 +49,7 @@ class SignUp extends StatelessWidget {
                    }, 
             (r) {
                     Navigator.pushAndRemoveUntil(context,
-                      MaterialPageRoute(builder: (context) => const RootPage(),),
+                      MaterialPageRoute(builder: (context) => const HomePage(),),
                           (route) => false,);
                   },
                 );
