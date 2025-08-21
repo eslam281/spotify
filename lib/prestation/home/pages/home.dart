@@ -45,7 +45,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 Container(),
               ]),
             ),
-            SizedBox(height: 40,),
             Playlist()
         ],),
       ) ,
