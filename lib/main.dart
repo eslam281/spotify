@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spotify/prestation/choose_mode/bloc/theme_cubit.dart';
+import 'package:spotify/prestation/home/pages/home.dart';
 import 'package:spotify/prestation/splash/pages/splash.dart';
 import 'package:spotify/service_locator.dart';
 
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: mode,
-            home: const SplashPage(),
+            home: const HomePage(),
+            // home: const SplashPage(),
           );
         },
       ),

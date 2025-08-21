@@ -20,11 +20,14 @@ class QuranFirebaseServiceImpl extends QuranFirebaseService{
           .limit(3)
           .get();
       for (var element in data.docs) {
-        quran.add(QuranModel.fromJson(element.data()).toEntity());
+        var quranModel = QuranModel.fromJson(element.data());
+        quran.add(
+            quranModel.toEntity()
+        );
       }
       return Right(quran);
     }catch(e) {
-      return const Left("An error occurred, please try again .");
+      return Left("An error occurred, please try again $e.");
     }
   }
 }
