@@ -44,15 +44,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Align(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
-              height: 140,
+              height: 140,width: 350,
               child: SvgPicture.asset(AppVectors.homeTopCard),
             ),
           ),
           Align(
               alignment: Alignment.bottomRight,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 75,top: 3),
-                  child: Image.asset(AppImages.homeReader,width: 190,),
+                  padding: const EdgeInsets.only(right: 73),
+                  child: Image.asset(AppImages.homeReader,width: 197,),
                 ))
         ],
       ),
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       labelStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: 20,
           color:context.isDarkMode?Colors.white :Colors.black ),
       indicatorPadding:const EdgeInsets.symmetric(horizontal: 10) ,
-        dividerColor:context.isDarkMode?Colors.black :Colors.white ,
+        dividerColor:context.isDarkMode?AppColors.darkBackground :AppColors.lightBackground ,
       controller: _tabController,dividerHeight: 2,isScrollable: true,
         labelPadding: const EdgeInsets.only(bottom: 5,right: 48,top: 40),
         padding: const EdgeInsets.symmetric(horizontal: 16),
