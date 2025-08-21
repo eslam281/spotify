@@ -19,15 +19,15 @@ class NewsQuran extends StatelessWidget {
       child: SizedBox(
         height: 200,
         child:BlocBuilder<NewsQuranCubit, NewsQuranState>(
-          builder: (_,stat) {
-            if(stat is NewsQuranLoading)return const Center(child: CircularProgressIndicator());
-            if(stat is NewsQuranLoaded) {
+          builder: (_,state) {
+            if(state is NewsQuranLoading)return const Center(child: CircularProgressIndicator());
+            if(state is NewsQuranLoaded) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: _quran(stat.quran),
+                child: _quran(state.quran),
               );
             }
-            if(stat is NewsQuranLoadFailure)return Text(stat.error);
+            if(state is NewsQuranLoadFailure)return Text(state.error);
             return const Text("");
           }
         )

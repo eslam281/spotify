@@ -9,6 +9,7 @@ import 'domain/repository/auth/auth.dart';
 import 'domain/usecases/auth/signin.dart';
 import 'domain/usecases/auth/signup.dart';
 import 'domain/usecases/quran/get_news_quran.dart';
+import 'domain/usecases/quran/get_play_list.dart';
 
 final sl =GetIt.instance;
 
@@ -38,6 +39,9 @@ Future<void> initializeDependencies() async {
   );
   sl.registerSingleton<GetNewsQuranUseCase>(
       GetNewsQuranUseCase()
+  );
+  sl.registerSingleton<GetPlayListUseCase>(
+      GetPlayListUseCase()
   );
 
 }

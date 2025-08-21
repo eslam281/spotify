@@ -7,6 +7,7 @@ import 'package:spotify/core/configs/theme/app_colors.dart';
 
 import '../../../core/configs/assets/app_images.dart';
 import '../widgets/news_quran.dart';
+import '../widgets/playlist.dart';
 
 class HomePage extends StatefulWidget {
    const HomePage({super.key});
@@ -43,7 +44,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 Container(),
                 Container(),
               ]),
-            )
+            ),
+            SizedBox(height: 40,),
+            Playlist()
         ],),
       ) ,
     );
