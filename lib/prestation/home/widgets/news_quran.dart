@@ -19,7 +19,6 @@ class NewsQuran extends StatelessWidget {
           builder: (_,stat) {
             if(stat is NewsQuranLoading)return const Center(child: CircularProgressIndicator());
             if(stat is NewsQuranLoaded) {
-              print(stat.quran.length);
               return _quran(stat.quran);
             }
             if(stat is NewsQuranLoadFailure)return Text(stat.error);
@@ -32,10 +31,24 @@ class NewsQuran extends StatelessWidget {
   Widget _quran(List<QuranEntity> stat){
     return ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) =>const Column(
-          children: [
-
-          ]
+        itemBuilder: (context, index) =>
+        SizedBox(
+          width: 160,
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage("https://res.cloudinary.com/dmhjt1m94/image/upload/v1755769943/Fatiha_coytn0.png")
+                    )
+                  ),
+                ),
+              )
+              // https://res.cloudinary.com/dmhjt1m94/image/upload/intro_jkaymk.png
+              // https://res.cloudinary.com/dmhjt1m94/image/upload/v1755768281/download-removebg-preview_abv0ov.png
+            ]
+          ),
         ),
         separatorBuilder: (context, index) =>const SizedBox(width: 14,) ,
         itemCount: stat.length);
