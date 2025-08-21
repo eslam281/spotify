@@ -7,7 +7,7 @@ import '../../repository/quran/quran.dart';
 class GetNewsQuranUseCase implements UseCase<Either,dynamic>{
   @override
   Future<Either> call({ param}) {
-    return sl<QuranRepository>().getNewsQuran();
+    return sl<QuranRepository>().getPlayList();
   }
 
 }

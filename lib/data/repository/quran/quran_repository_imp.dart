@@ -10,4 +10,9 @@ class QuranRepositoryImpl extends QuranRepository{
     return sl<QuranFirebaseService>().getQuran();
   }
 
+  @override
+  Future<Either> getPlayList() {
+    return sl<QuranFirebaseService>().getPlayList();
+  }
+
 }
