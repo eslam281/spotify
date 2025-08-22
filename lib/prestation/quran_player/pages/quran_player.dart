@@ -81,7 +81,7 @@ class QuranPlayerPage extends StatelessWidget {
         if(state is QuranPlayerLoaded){
           return Column(children: [
             Slider(
-              min: 0,padding: EdgeInsets.symmetric(vertical:12),
+              min: 0,padding: const EdgeInsets.symmetric(vertical:12),
               activeColor:context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground,
                 max: context.read<QuranPlayerCubit>().quranDuration.inSeconds.toDouble(),
                 value: context.read<QuranPlayerCubit>().quranPosition.inSeconds.toDouble()
