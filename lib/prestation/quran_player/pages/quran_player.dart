@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spotify/common/helpers/is_dark_mode.dart';
 import 'package:spotify/common/widgets/appbbar/app_bar.dart';
 
 import '../../../core/configs/constants/app_urls.dart';
@@ -80,7 +81,8 @@ class QuranPlayerPage extends StatelessWidget {
         if(state is QuranPlayerLoaded){
           return Column(children: [
             Slider(
-              min: 0,
+              min: 0,padding: EdgeInsets.symmetric(vertical:12),
+              activeColor:context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground,
                 max: context.read<QuranPlayerCubit>().quranDuration.inSeconds.toDouble(),
                 value: context.read<QuranPlayerCubit>().quranPosition.inSeconds.toDouble()
                 , onChanged: (value) {
@@ -89,9 +91,25 @@ class QuranPlayerPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              Text(context.read<QuranPlayerCubit>().quranPosition.toString()),
-              Text(context.read<QuranPlayerCubit>().quranPosition.toString()),
-            ],)
+              Text(formatDuration(context.read<QuranPlayerCubit>().quranPosition)),
+              Text(formatDuration(context.read<QuranPlayerCubit>().quranDuration)),
+            ],),
+            const SizedBox(height: 20,),
+
+            GestureDetector(
+              onTap: () {
+                context.read<QuranPlayerCubit>().playOrPauseQuran();
+              },
+              child: Container(
+                width: 72,height: 72,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.primary,
+                ),
+                child: Icon(context.read<QuranPlayerCubit>().audioPlayer.playing?
+                   Icons.pause : Icons.play_arrow ,color: Colors.white,size: 28,),
+              ),
+            )
           ],);
         }
         if(state is QuranPlayerFailure) {
@@ -100,5 +118,10 @@ class QuranPlayerPage extends StatelessWidget {
         return const SizedBox();
       },
     );
+  }
+  String formatDuration(Duration duration) {
+    final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
   }
 }

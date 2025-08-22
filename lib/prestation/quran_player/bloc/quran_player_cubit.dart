@@ -35,8 +35,9 @@ class QuranPlayerCubit extends Cubit<QuranPlayerState> {
   }
 
   Future<void> playOrPauseQuran() async {
-    if (audioPlayer.playing) {
+    if (!audioPlayer.playing) {
       await audioPlayer.play();
+      await audioPlayer.setLoopMode(LoopMode.all);
     } else {
       await audioPlayer.pause();
     }
