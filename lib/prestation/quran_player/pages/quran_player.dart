@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/common/widgets/appbbar/app_bar.dart';
 
 import '../../../core/configs/constants/app_urls.dart';
 import '../../../core/configs/theme/app_colors.dart';
 import '../../../domain/entities/quran/quran.dart';
+import '../bloc/quran_player_cubit.dart';
 
 class QuranPlayerPage extends StatelessWidget {
   final QuranEntity quranEntity;
@@ -17,17 +19,24 @@ class QuranPlayerPage extends StatelessWidget {
           style:TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
         actions:IconButton(onPressed: () {
 
-        }, icon: Icon(Icons.more_vert_rounded),),
+        }, icon: const Icon(Icons.more_vert_rounded),),
       ),
-      body: Padding(
+      body: BlocProvider(
+        create: (context) => QuranPlayerCubit()..loadQuran(
+            "${AppURLs.quran}${quranEntity.title}_quran.mp3"),
+
+        child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 28,vertical: 10),
         child: Column(children: [
           _quran(context),
           const SizedBox(height: 20),
           _quranDetail(),
+          const SizedBox(height: 30),
+          _quranPlayer(),
 
         ],),
       ),
+),
     );
   }
   Widget _quran(BuildContext context){
@@ -61,5 +70,35 @@ class QuranPlayerPage extends StatelessWidget {
         size: 30,
         color: AppColors.grey,))
     ]);
+  }
+  Widget _quranPlayer(){
+    return BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
+      builder: (BuildContext context, QuranPlayerState state) {
+        if(state is QuranPlayerLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if(state is QuranPlayerLoaded){
+          return Column(children: [
+            Slider(
+              min: 0,
+                max: context.read<QuranPlayerCubit>().quranDuration.inSeconds.toDouble(),
+                value: context.read<QuranPlayerCubit>().quranPosition.inSeconds.toDouble()
+                , onChanged: (value) {
+
+                },),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+              Text(context.read<QuranPlayerCubit>().quranPosition.toString()),
+              Text(context.read<QuranPlayerCubit>().quranPosition.toString()),
+            ],)
+          ],);
+        }
+        if(state is QuranPlayerFailure) {
+          return Text("==================== ${state.message}");
+        }
+        return const SizedBox();
+      },
+    );
   }
 }

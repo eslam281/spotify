@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           children: [
             _homeTopCard(),
             _tabs(),
+            const SizedBox(height: 20,),
             SizedBox(
               height:260,
               child: TabBarView(
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 Container(),
               ]),
             ),
+
             const Playlist()
         ],),
       ) ,
