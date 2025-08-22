@@ -5,6 +5,7 @@ import 'package:spotify/prestation/home/bloc/play_list_cubit.dart';
 
 import '../../../core/configs/theme/app_colors.dart';
 import '../../../domain/entities/quran/quran.dart';
+import '../../quran_player/pages/quran_player.dart';
 
 class Playlist extends StatelessWidget {
   const Playlist({super.key});
@@ -50,34 +51,43 @@ class Playlist extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    height: 48, width: 45,
-                    decoration: BoxDecoration(
-                      shape:BoxShape.circle,
-                      color:context.isDarkMode?AppColors.darkGrey:const Color(0xffE6E6E6),
+              GestureDetector(
+                onTap:() {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) =>
+                          QuranPlayerPage(quranEntity: quran[index],),));
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      height: 48, width: 45,
+                      decoration: BoxDecoration(
+                        shape:BoxShape.circle,
+                        color:context.isDarkMode?AppColors.darkGrey:const Color(0xffE6E6E6),
+                      ),
+                      child: Icon(Icons.play_arrow,
+                        color:context.isDarkMode?const Color(0xff959595):const Color(0xff555555,),
+                      ),
                     ),
-                    child: Icon(Icons.play_arrow,
-                      color:context.isDarkMode?const Color(0xff959595):const Color(0xff555555,),
-                    ),
-                  ),
-                  const SizedBox(width: 20,),
-                  Column(children: [
-                    Text(quran[index].title,style:
-                    const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)),
-                    const SizedBox(height: 5,),
-                    Text(quran[index].reader,style:
-                    const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,)),
-                  ],),
-                ],
+                    const SizedBox(width: 20,),
+                    Column(children: [
+                      Text(quran[index].title,style:
+                      const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)),
+                      const SizedBox(height: 5,),
+                      Text(quran[index].reader,style:
+                      const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,)),
+                    ],),
+                  ],
+                ),
               ),
 
 
               Row(children: [
                 Text(quran[index].duration.toString().
                 replaceAll('.', ':')),
+
                 const SizedBox(width: 20,),
+
                 IconButton(onPressed: () {
 
                 }, icon: const Icon(Icons.favorite_rounded,
