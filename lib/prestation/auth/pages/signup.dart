@@ -36,7 +36,7 @@ class SignUp extends StatelessWidget {
               const SizedBox(height: 33,),
               BasicAppButton(title: "Create Account", onPressed: ()async {
                 var result =await sl<SignUpUseCase>().call(
-                  param: CreateUserReq(
+                  params: CreateUserReq(
                       fullName: _fullName.text.toString(),
                       email: _email.text.toString(),
                       password: _password.text.toString()

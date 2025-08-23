@@ -32,7 +32,7 @@ class SignIn extends StatelessWidget {
             const SizedBox(height: 33,),
             BasicAppButton(title: "Sign In", onPressed: () async{
               var result =await sl<SignInUseCase>().call(
-                  param: SignInUserReq(
+                  params: SignInUserReq(
                       email: _email.text.toString(),
                       password: _password.text.toString()
                   )

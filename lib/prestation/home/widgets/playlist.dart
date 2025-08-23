@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/common/helpers/is_dark_mode.dart';
 import 'package:spotify/prestation/home/bloc/play_list_cubit.dart';
 
+import '../../../common/widgets/button/favorite_button.dart';
 import '../../../core/configs/theme/app_colors.dart';
 import '../../../domain/entities/quran/quran.dart';
 import '../../quran_player/pages/quran_player.dart';
@@ -88,10 +89,7 @@ class Playlist extends StatelessWidget {
 
                 const SizedBox(width: 20,),
 
-                IconButton(onPressed: () {
-
-                }, icon: const Icon(Icons.favorite_rounded,
-                   color: AppColors.grey,))
+                FavoriteButton(quranEntity: quran[index])
               ],)
           ],);
         },

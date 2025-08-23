@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/common/helpers/is_dark_mode.dart';
 import 'package:spotify/common/widgets/appbbar/app_bar.dart';
 
+import '../../../common/widgets/button/favorite_button.dart';
 import '../../../core/configs/constants/app_urls.dart';
 import '../../../core/configs/theme/app_colors.dart';
 import '../../../domain/entities/quran/quran.dart';
@@ -65,11 +66,7 @@ class QuranPlayerPage extends StatelessWidget {
         Text(quranEntity.reader,style:
         const TextStyle(fontWeight: FontWeight.w400,fontSize: 20,)),
       ],),
-      IconButton(onPressed: () {
-
-      }, icon: const Icon(Icons.favorite_outline_outlined,
-        size: 30,
-        color: AppColors.grey,))
+          FavoriteButton(quranEntity: quranEntity)
     ]);
   }
   Widget _quranPlayer(){

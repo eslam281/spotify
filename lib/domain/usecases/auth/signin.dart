@@ -7,8 +7,8 @@ import '../../repository/auth/auth.dart';
 
 class SignInUseCase implements UseCase<Either,SignInUserReq>{
   @override
-  Future<Either> call({SignInUserReq? param}) {
-    return sl<AuthRepository>().signin(param!);
+  Future<Either> call({SignInUserReq? params}) {
+    return sl<AuthRepository>().signin(params!);
   }
 
 }

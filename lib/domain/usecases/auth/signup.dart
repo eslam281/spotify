@@ -7,8 +7,8 @@ import '../../repository/auth/auth.dart';
 
 class SignUpUseCase implements UseCase<Either,CreateUserReq>{
   @override
-  Future<Either> call({CreateUserReq? param}) {
-    return sl<AuthRepository>().signup(param!);
+  Future<Either> call({CreateUserReq? params}) {
+    return sl<AuthRepository>().signup(params!);
   }
 
 }

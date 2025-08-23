@@ -3,6 +3,8 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../domain/entities/quran/quran.dart';
+import '../../../domain/usecases/quran/is_favorite_quran.dart';
+import '../../../service_locator.dart';
 import '../../models/quran/quran.dart';
 
 abstract class QuranFirebaseService{
@@ -25,6 +27,9 @@ class QuranFirebaseServiceImpl extends QuranFirebaseService{
           .get();
       for (var element in data.docs) {
         var quranModel = QuranModel.fromJson(element.data());
+        bool isFavorite = await sl<IsFavoriteQuranUseCase>().call(params:element.reference.id);
+        quranModel.isFavorite = isFavorite;
+        quranModel.quranId = element.reference.id;
         quran.add(
             quranModel.toEntity()
         );
@@ -44,6 +49,9 @@ class QuranFirebaseServiceImpl extends QuranFirebaseService{
           .orderBy('releaseDate', descending: true).get();
       for (var element in data.docs) {
         var quranModel = QuranModel.fromJson(element.data());
+        bool isFavorite = await sl<IsFavoriteQuranUseCase>().call(params:element.reference.id);
+        quranModel.isFavorite = isFavorite;
+        quranModel.quranId = element.reference.id;
         quran.add(
             quranModel.toEntity()
         );

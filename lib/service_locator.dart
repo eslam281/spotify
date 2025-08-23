@@ -8,8 +8,10 @@ import 'data/sources/quran/quran_firebase_service.dart';
 import 'domain/repository/auth/auth.dart';
 import 'domain/usecases/auth/signin.dart';
 import 'domain/usecases/auth/signup.dart';
+import 'domain/usecases/quran/add_or_remove_favorite_quran.dart';
 import 'domain/usecases/quran/get_news_quran.dart';
 import 'domain/usecases/quran/get_play_list.dart';
+import 'domain/usecases/quran/is_favorite_quran.dart';
 
 final sl =GetIt.instance;
 
@@ -42,6 +44,12 @@ Future<void> initializeDependencies() async {
   );
   sl.registerSingleton<GetPlayListUseCase>(
       GetPlayListUseCase()
+  );
+ sl.registerSingleton<AddOrRemoveFavoriteQuranUseCase>(
+     AddOrRemoveFavoriteQuranUseCase()
+  );
+ sl.registerSingleton<IsFavoriteQuranUseCase>(
+     IsFavoriteQuranUseCase()
   );
 
 }
