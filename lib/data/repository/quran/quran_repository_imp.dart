@@ -24,4 +24,9 @@ class QuranRepositoryImpl extends QuranRepository{
   Future<bool> isFavoriteQuran(String quranId)async {
     return await sl<QuranFirebaseService>().isFavoriteQuran(quranId);
   }
+
+  @override
+  Future<Either> getUserFavoriteQuran() async{
+    return await sl<QuranFirebaseService>().getUserFavoriteQuran();
+  }
 }

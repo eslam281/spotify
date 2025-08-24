@@ -7,4 +7,5 @@ abstract class QuranRepository{
   Future<Either> addOrRemoveFavoriteQuran(String quranId);
 
   Future<bool> isFavoriteQuran(String quranId);
+  Future<Either> getUserFavoriteQuran();
 }

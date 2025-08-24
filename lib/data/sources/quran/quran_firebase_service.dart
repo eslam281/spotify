@@ -12,6 +12,7 @@ abstract class QuranFirebaseService{
   Future<Either> getPlayList();
   Future<Either> addOrRemoveFavoriteQuran(String quranId);
   Future<bool> isFavoriteQuran(String quranId);
+  Future<Either> getUserFavoriteQuran();
 
 }
 
@@ -106,8 +107,7 @@ class QuranFirebaseServiceImpl extends QuranFirebaseService{
           .collection('Users')
           .doc(uid)
           .collection('Favorite')
-          .
-      where('QuranId', isEqualTo: quranId)
+          .where('QuranId', isEqualTo: quranId)
           .get();
       if (favoriteQuran.docs.isNotEmpty) {
         return true;
@@ -116,6 +116,31 @@ class QuranFirebaseServiceImpl extends QuranFirebaseService{
       }
     }catch(e){
       return false;
+    }
+  }
+
+  @override
+  Future<Either> getUserFavoriteQuran() async{
+    try{
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+      var user = firebaseAuth.currentUser;
+      List<QuranEntity> favoriteQuranList =[];
+      String uid = user!.uid;
+
+      QuerySnapshot favoriteQuran = await firestore.collection('Users').
+        doc(uid).collection('Favorite').get();
+      for(var element in favoriteQuran.docs){
+        String quranId = element['QuranId'];
+        var quran = await firestore.collection('quran')
+            .doc(quranId).get();
+        QuranModel quranModel = QuranModel.fromJson(quran.data()!);
+        favoriteQuranList.add(quranModel.toEntity());
+      }
+      return Right(favoriteQuranList);
+    }catch(e){
+      return Left("An error occurred $e.");
     }
   }
 }
