@@ -21,4 +21,8 @@ class FavoriteQuranCubit extends Cubit<FavoriteQuranState> {
       }
     );
   }
+  Future<void> removeQuran(int index) async{
+    favoriteQuran.removeAt(index);
+    emit(FavoriteQuranLoaded(favoriteQuran: favoriteQuran));
+  }
 }

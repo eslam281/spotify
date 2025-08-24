@@ -4,6 +4,8 @@ import 'package:spotify/common/helpers/is_dark_mode.dart';
 import 'package:spotify/core/configs/constants/app_urls.dart';
 
 import '../../../common/widgets/appbbar/app_bar.dart';
+import '../../../common/widgets/button/favorite_button.dart';
+import '../../quran_player/pages/quran_player.dart';
 import '../bloc/favorite_quran_cubit.dart';
 import '../bloc/profile_info_cubit.dart';
 
@@ -85,6 +87,7 @@ class ProfilePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const Text("Favorite Quran",style:TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+        const SizedBox(height: 20,),
       BlocBuilder<FavoriteQuranCubit, FavoriteQuranState>(builder: (context, state) {
         if(state is FavoriteQuranLoading){
           return const Center(child: CircularProgressIndicator());
@@ -94,19 +97,52 @@ class ProfilePage extends StatelessWidget {
             shrinkWrap: true,
             itemCount: state.favoriteQuran.length,
             itemBuilder: (context, index) {
-              return Row(children: [
-                Container(
-                  height: 35,width: 35,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        "${AppURLs.imageCover}${state.favoriteQuran[index].title}.png"
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                GestureDetector(
+                  onTap:() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) =>
+                            QuranPlayerPage(quranEntity:state.favoriteQuran[index],),));
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 70,width:70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  "${AppURLs.imageCover}${state.favoriteQuran[index].title}.png"
+                              ),
+                            )
+                        ),
                       ),
-                    )
+                      const SizedBox(width: 10,),
+                      const SizedBox(width: 20,),
+                      Column(children: [
+                        Text(state.favoriteQuran[index].title,style:
+                        const TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)),
+                        const SizedBox(height: 5,),
+                        Text(state.favoriteQuran[index].reader,style:
+                        const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,)),
+                      ],),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 10,),
+                Row(children: [
+                  Text(state.favoriteQuran[index].duration.toString().
+                  replaceAll('.', ':')),
+
+                  const SizedBox(width: 20,),
+
+                  FavoriteButton(quranEntity: state.favoriteQuran[index],
+                  key: UniqueKey(),
+                  onPressed: () {
+                    context.read<FavoriteQuranCubit>().removeQuran(index);
+                  },)
+                ],)
 
               ],);
             },

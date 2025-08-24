@@ -16,7 +16,9 @@ class QuranPlayerCubit extends Cubit<QuranPlayerState> {
      updateQuranPlayer();
    });
    audioPlayer.durationStream.listen((duration) {
-     quranDuration = duration!;
+     if (duration != null) {
+       quranDuration = duration;
+     }
    });
   }
 

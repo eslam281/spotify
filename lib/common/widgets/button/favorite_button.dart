@@ -7,16 +7,20 @@ import '../../bloc/favorite_button/favorite_button_cubit.dart';
 
 class FavoriteButton extends StatelessWidget {
   final QuranEntity quranEntity ;
-  const FavoriteButton({super.key, required this.quranEntity});
+  final Function()? onPressed;
+  const FavoriteButton({super.key, required this.quranEntity, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(create: (context) => FavoriteButtonCubit(),
     child:BlocBuilder<FavoriteButtonCubit, FavoriteButtonState>(builder: (context, state) {
       if (state is FavoriteButtonInitial) {
-        return IconButton(onPressed: () {
-          context.read<FavoriteButtonCubit>().
+        return IconButton(onPressed: () async{
+         await context.read<FavoriteButtonCubit>().
           favoriteButtonUpdated(quranEntity.quranId);
+          if(onPressed!=null){
+            onPressed!();
+          }
         }, icon:  Icon(quranEntity.isFavorite? Icons.favorite:
         Icons.favorite_border,
           color: AppColors.darkGrey,));

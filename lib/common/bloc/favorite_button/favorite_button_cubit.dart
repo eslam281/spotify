@@ -9,7 +9,7 @@ part 'favorite_button_state.dart';
 class FavoriteButtonCubit extends Cubit<FavoriteButtonState> {
   FavoriteButtonCubit() : super(FavoriteButtonInitial());
 
-  void favoriteButtonUpdated(String quranId) async {
+   favoriteButtonUpdated(String quranId) async {
     var result = await sl<AddOrRemoveFavoriteQuranUseCase>().call(
       params: quranId,
     );
