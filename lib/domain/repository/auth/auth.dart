@@ -6,4 +6,5 @@ import '../../../data/models/auth/signin_user_req.dart';
 abstract class AuthRepository{
   Future <Either> signup(CreateUserReq createuserReq);
   Future<Either> signin(SignInUserReq signInUserReq);
+  Future<Either> getUser();
 }

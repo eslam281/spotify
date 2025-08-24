@@ -4,6 +4,7 @@ import 'package:spotify/common/helpers/is_dark_mode.dart';
 import 'package:spotify/common/widgets/appbbar/app_bar.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/prestation/profile/pages/profile.dart';
 
 import '../../../core/configs/assets/app_images.dart';
 import '../widgets/news_quran.dart';
@@ -27,7 +28,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BasicAppBar(showArow: false,title: Image.asset(AppImages.logo,scale:1.8,)),
+      appBar: BasicAppBar(
+          showArow: false,title: Image.asset(AppImages.logo,scale:1.8,),
+        actions: IconButton(onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder:
+              (context) => const ProfilePage(),));
+        }, icon: const Icon(Icons.person)),
+
+      ),
       body:SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

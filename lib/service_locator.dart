@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:spotify/data/repository/auth/auth_repository_impl.dart';
 import 'package:spotify/data/sources/auth/auth_firebase_service.dart';
 import 'package:spotify/domain/repository/quran/quran.dart';
+import 'package:spotify/domain/usecases/auth/get_user.dart';
 
 import 'data/repository/quran/quran_repository_imp.dart';
 import 'data/sources/quran/quran_firebase_service.dart';
@@ -50,6 +51,9 @@ Future<void> initializeDependencies() async {
   );
  sl.registerSingleton<IsFavoriteQuranUseCase>(
      IsFavoriteQuranUseCase()
+  );
+  sl.registerSingleton<GetUserUseCase>(
+      GetUserUseCase()
   );
 
 }
