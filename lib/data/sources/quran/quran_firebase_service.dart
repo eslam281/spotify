@@ -136,6 +136,8 @@ class QuranFirebaseServiceImpl extends QuranFirebaseService{
         var quran = await firestore.collection('quran')
             .doc(quranId).get();
         QuranModel quranModel = QuranModel.fromJson(quran.data()!);
+        quranModel.isFavorite = true;
+        quranModel.quranId = quranId;
         favoriteQuranList.add(quranModel.toEntity());
       }
       return Right(favoriteQuranList);

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/common/helpers/is_dark_mode.dart';
+import 'package:spotify/core/configs/constants/app_urls.dart';
 
 import '../../../common/widgets/appbbar/app_bar.dart';
+import '../bloc/favorite_quran_cubit.dart';
 import '../bloc/profile_info_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -17,7 +19,9 @@ class ProfilePage extends StatelessWidget {
           style:TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
       ),
       body: Column(children: [
-        _profileIfo(context)
+        _profileIfo(context),
+        const SizedBox(height: 30,),
+        _favoriteQuran()
         
       ],)
     );
@@ -70,5 +74,55 @@ class ProfilePage extends StatelessWidget {
             )
         )
     );
+  }
+  Widget _favoriteQuran() {
+    return BlocProvider(
+  create: (context) => FavoriteQuranCubit()..getFavoriteQuran(),
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Text("Favorite Quran",style:TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+      BlocBuilder<FavoriteQuranCubit, FavoriteQuranState>(builder: (context, state) {
+        if(state is FavoriteQuranLoading){
+          return const Center(child: CircularProgressIndicator());
+        }
+        if(state is FavoriteQuranLoaded){
+          return ListView.separated(
+            shrinkWrap: true,
+            itemCount: state.favoriteQuran.length,
+            itemBuilder: (context, index) {
+              return Row(children: [
+                Container(
+                  height: 35,width: 35,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        "${AppURLs.imageCover}${state.favoriteQuran[index].title}.png"
+                      ),
+                    )
+                  ),
+                ),
+                const SizedBox(width: 10,),
+
+              ],);
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 20,);
+            },
+          );
+        }
+        if(state is FavoriteQuranFailure){
+          return Center(child: Text("An error occurred ${state.message}"));
+        }
+        return const SizedBox();
+      },)
+
+      ],),
+  ),
+);
   }
 }
