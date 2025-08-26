@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:spotify/common/helpers/is_dark_mode.dart';
 import 'package:spotify/common/widgets/appbbar/app_bar.dart';
 
@@ -83,8 +84,10 @@ class QuranPlayerPage extends StatelessWidget {
                 max: context.read<QuranPlayerCubit>().quranDuration.inSeconds.toDouble(),
                 value: context.read<QuranPlayerCubit>().quranPosition.inSeconds.toDouble()
                 , onChanged: (value) {
+                  context.read<QuranPlayerCubit>().audioPlayer.seek(Duration(seconds: value.toInt()));
+                },allowedInteraction:SliderInteraction.tapAndSlide ,),
 
-                },),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -93,19 +96,51 @@ class QuranPlayerPage extends StatelessWidget {
             ],),
             const SizedBox(height: 20,),
 
-            GestureDetector(
-              onTap: () {
-                context.read<QuranPlayerCubit>().playOrPauseQuran();
-              },
-              child: Container(
-                width: 72,height: 72,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(onPressed: () {
+                  context.read<QuranPlayerCubit>().loopOrNotQuran();
+
+                }, icon: Icon(context.read<QuranPlayerCubit>().loopMode == 1 ?
+                Icons.repeat_one_rounded : Icons.cached_rounded,
+
+                  color: context.read<QuranPlayerCubit>().loopMode == 0 ? Colors.grey :
+                  context.isDarkMode ? AppColors.lightBackground : AppColors.darkBackground,)
                 ),
-                child: Icon(context.read<QuranPlayerCubit>().audioPlayer.playing?
-                   Icons.pause : Icons.play_arrow ,color: Colors.white,size: 28,),
-              ),
+
+                IconButton(onPressed: () {
+
+                }, icon: Icon(Icons.skip_previous_rounded,
+                  color: context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground, )),
+
+                GestureDetector(
+                  onTap: () {
+                    context.read<QuranPlayerCubit>().playOrPauseQuran();
+                  },
+                  child: Container(
+                    width: 72,height: 72,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.primary,
+                    ),
+                    child: Icon(context.read<QuranPlayerCubit>().audioPlayer.playing?
+                       Icons.pause : Icons.play_arrow ,color: Colors.white,size: 28,),
+                  ),
+                ),
+
+                IconButton(onPressed: () {
+
+                }, icon: Icon(Icons.skip_next_rounded,
+                  color: context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground, )),
+                IconButton(onPressed: () {
+                  context.read<QuranPlayerCubit>().isRandom=!context.read<QuranPlayerCubit>().isRandom;
+                  context.read<QuranPlayerCubit>().emit(QuranPlayerLoaded());
+                }, icon: Icon(Icons.shuffle_rounded,
+                  color:context.read<QuranPlayerCubit>().isRandom ?
+                  context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground :
+                  Colors.grey, ),),
+              ],
             )
           ],);
         }
