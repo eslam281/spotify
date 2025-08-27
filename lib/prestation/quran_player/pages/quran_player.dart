@@ -11,8 +11,9 @@ import '../../../domain/entities/quran/quran.dart';
 import '../bloc/quran_player_cubit.dart';
 
 class QuranPlayerPage extends StatelessWidget {
-  final QuranEntity quranEntity;
-  const QuranPlayerPage({super.key, required this.quranEntity});
+  final List<QuranEntity> quranEntity;
+   int index;
+   QuranPlayerPage({super.key, required this.quranEntity, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -26,49 +27,53 @@ class QuranPlayerPage extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) => QuranPlayerCubit()..loadQuran(
-            "${AppURLs.quran}${quranEntity.title}_quran.mp3"),
+            "${AppURLs.quran}${quranEntity[index].title}_quran.mp3"),
 
         child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 28,vertical: 10),
-        child: Column(children: [
-          _quran(context),
-          const SizedBox(height: 20),
-          _quranDetail(),
-          const SizedBox(height: 30),
-          _quranPlayer(),
+          padding: const EdgeInsets.symmetric(horizontal: 28,vertical: 10),
+          child: Column(children: [
+            _quran(context),
+            const SizedBox(height: 20),
+            _quranDetail(),
+            const SizedBox(height: 30),
+            _quranPlayer(),
 
-        ],),
+          ],),
+        ),
       ),
-),
     );
   }
   Widget _quran(BuildContext context){
     return Container(
-      height: MediaQuery.of(context).size.height/2.28,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(
-                "${AppURLs.imageCover}${quranEntity.title}.png"),)
-      )
+        height: MediaQuery.of(context).size.height/2.28,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(
+                  "${AppURLs.imageCover}${quranEntity[index].title}.png"),)
+        )
     );
   }
   Widget _quranDetail(){
+    return BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
+  builder: (context, state) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        Text(quranEntity.title,style:
-        const TextStyle(fontWeight: FontWeight.bold,fontSize: 20,)),
-        const SizedBox(height: 5,),
-        Text(quranEntity.reader,style:
-        const TextStyle(fontWeight: FontWeight.w400,fontSize: 20,)),
-      ],),
-          FavoriteButton(quranEntity: quranEntity)
-    ]);
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(quranEntity[index].title,style:
+              const TextStyle(fontWeight: FontWeight.bold,fontSize: 20,)),
+              const SizedBox(height: 5,),
+              Text(quranEntity[index].reader,style:
+              const TextStyle(fontWeight: FontWeight.w400,fontSize: 20,)),
+            ],),
+          FavoriteButton(quranEntity: quranEntity[index])
+        ]);
+  },
+);
   }
   Widget _quranPlayer(){
     return BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
@@ -81,19 +86,29 @@ class QuranPlayerPage extends StatelessWidget {
             Slider(
               min: 0,padding: const EdgeInsets.symmetric(vertical:12),
               activeColor:context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground,
-                max: context.read<QuranPlayerCubit>().quranDuration.inSeconds.toDouble(),
-                value: context.read<QuranPlayerCubit>().quranPosition.inSeconds.toDouble()
-                , onChanged: (value) {
-                  context.read<QuranPlayerCubit>().audioPlayer.seek(Duration(seconds: value.toInt()));
-                },allowedInteraction:SliderInteraction.tapAndSlide ,),
+              max: context.read<QuranPlayerCubit>().quranDuration.inSeconds.toDouble(),
+              value: context.read<QuranPlayerCubit>().quranPosition.inSeconds.toDouble(),
+              allowedInteraction:SliderInteraction.tapAndSlide,
+              onChanged: (value) {
+              context.read<QuranPlayerCubit>().audioPlayer.seek(Duration(seconds: value.toInt()));
+            },
+              onChangeEnd: (value) {
+                if(index < quranEntity.length-1){
+                  index++;
+                  context.read<QuranPlayerCubit>().loadQuran(
+                      "${AppURLs.quran}${quranEntity[index].title}_quran.mp3");
+                  context.read<QuranPlayerCubit>().emit(QuranPlayerLoaded());
+                }
+              },
+            ),
 
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              Text(formatDuration(context.read<QuranPlayerCubit>().quranPosition)),
-              Text(formatDuration(context.read<QuranPlayerCubit>().quranDuration)),
-            ],),
+                Text(formatDuration(context.read<QuranPlayerCubit>().quranPosition)),
+                Text(formatDuration(context.read<QuranPlayerCubit>().quranDuration)),
+              ],),
             const SizedBox(height: 20,),
 
             Row(
@@ -125,7 +140,7 @@ class QuranPlayerPage extends StatelessWidget {
                       color: AppColors.primary,
                     ),
                     child: Icon(context.read<QuranPlayerCubit>().audioPlayer.playing?
-                       Icons.pause : Icons.play_arrow ,color: Colors.white,size: 28,),
+                    Icons.pause : Icons.play_arrow ,color: Colors.white,size: 28,),
                   ),
                 ),
 

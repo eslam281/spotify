@@ -43,7 +43,7 @@ class NewsQuran extends StatelessWidget {
           onTap:() {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) =>
-                    QuranPlayerPage(quranEntity: quran[index],),));
+                    QuranPlayerPage(quranEntity: quran,index: index),));
           },
           child: SizedBox(
             width: 160,

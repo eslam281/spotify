@@ -104,7 +104,7 @@ class ProfilePage extends StatelessWidget {
                   onTap:() {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) =>
-                            QuranPlayerPage(quranEntity:state.favoriteQuran[index],),));
+                            QuranPlayerPage(quranEntity:state.favoriteQuran,index: index,),));
                   },
                   child: Row(
                     children: [
