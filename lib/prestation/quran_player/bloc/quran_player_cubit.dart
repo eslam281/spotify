@@ -1,40 +1,51 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:meta/meta.dart';
 
+import '../../../core/configs/constants/app_urls.dart';
+import '../../../domain/entities/quran/quran.dart';
+
 part 'quran_player_state.dart';
 
 class QuranPlayerCubit extends Cubit<QuranPlayerState> {
-
-  AudioPlayer audioPlayer = AudioPlayer();
+  final AudioPlayer audioPlayer = AudioPlayer();
   Duration quranDuration = Duration.zero;
   Duration quranPosition = Duration.zero;
   int loopMode = 0;
+  int index;
+  List<QuranEntity> quranEntity;
   bool isRandom = false;
 
-  QuranPlayerCubit() : super(QuranPlayerLoading()){
-   audioPlayer.positionStream.listen((position) {
-     quranPosition = position;
-     updateQuranPlayer();
-   });
-   audioPlayer.durationStream.listen((duration) {
-     if (duration != null) {
-       quranDuration = duration;
-     }
-   });
+  StreamSubscription<Duration>? _positionSub;
+  StreamSubscription<Duration?>? _durationSub;
+
+  QuranPlayerCubit(this.index, this.quranEntity) : super(QuranPlayerLoading()) {
+    _positionSub = audioPlayer.positionStream.listen((position) {
+      quranPosition = position;
+      updateQuranPlayer();
+    });
+
+    _durationSub = audioPlayer.durationStream.listen((duration) {
+      if (duration != null) {
+        quranDuration = duration;
+      }
+    });
   }
 
-  void updateQuranPlayer(){
-    emit(QuranPlayerLoaded());
-  }
-
-
-  Future<void> loadQuran(String url) async {
-    try {
-      await audioPlayer.setUrl(url);
+  void updateQuranPlayer() {
+    if (!isClosed) {
       emit(QuranPlayerLoaded());
+    }
+  }
+
+  Future<void> loadQuran() async {
+    try {
+      await audioPlayer.setUrl(
+          "${AppURLs.quran}${quranEntity[index].title}_quran.mp3");
+      if (!isClosed) emit(QuranPlayerLoaded());
     } catch (e) {
-      emit(QuranPlayerFailure(message: e.toString()));
+      if (!isClosed) emit(QuranPlayerFailure(message: e.toString()));
     }
   }
 
@@ -44,8 +55,9 @@ class QuranPlayerCubit extends Cubit<QuranPlayerState> {
     } else {
       await audioPlayer.pause();
     }
-    emit(QuranPlayerLoaded());
+    if (!isClosed) emit(QuranPlayerLoaded());
   }
+
   Future<void> loopOrNotQuran() async {
     if (audioPlayer.loopMode == LoopMode.off) {
       await audioPlayer.setLoopMode(LoopMode.one);
@@ -53,15 +65,27 @@ class QuranPlayerCubit extends Cubit<QuranPlayerState> {
     } else if (audioPlayer.loopMode == LoopMode.one) {
       await audioPlayer.setLoopMode(LoopMode.all);
       loopMode = 2;
-    }else{
+    } else {
       await audioPlayer.setLoopMode(LoopMode.off);
       loopMode = 0;
     }
-    emit(QuranPlayerLoaded());
+    if (!isClosed) emit(QuranPlayerLoaded());
+  }
+
+  Future<void> nextOrBackQuran(bool isNext) async {
+    if (index < quranEntity.length - 1 && isNext) {
+      index++;
+      loadQuran();
+    } else if (index > 0 && !isNext) {
+      index--;
+      loadQuran();
+    }
   }
 
   @override
   Future<void> close() {
+    _positionSub?.cancel();
+    _durationSub?.cancel();
     audioPlayer.dispose();
     return super.close();
   }

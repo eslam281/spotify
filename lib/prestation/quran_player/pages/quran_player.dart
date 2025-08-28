@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:spotify/common/helpers/is_dark_mode.dart';
 import 'package:spotify/common/widgets/appbbar/app_bar.dart';
 
@@ -26,8 +25,7 @@ class QuranPlayerPage extends StatelessWidget {
         }, icon: const Icon(Icons.more_vert_rounded),),
       ),
       body: BlocProvider(
-        create: (context) => QuranPlayerCubit()..loadQuran(
-            "${AppURLs.quran}${quranEntity[index].title}_quran.mp3"),
+        create: (context) => QuranPlayerCubit(index,quranEntity)..loadQuran(),
 
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 28,vertical: 10),
@@ -44,6 +42,8 @@ class QuranPlayerPage extends StatelessWidget {
     );
   }
   Widget _quran(BuildContext context){
+    return BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
+  builder: (context, state) {
     return Container(
         height: MediaQuery.of(context).size.height/2.28,
         decoration: BoxDecoration(
@@ -51,9 +51,11 @@ class QuranPlayerPage extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                  "${AppURLs.imageCover}${quranEntity[index].title}.png"),)
+                  "${AppURLs.imageCover}${quranEntity[context.read<QuranPlayerCubit>().index].title}.png"),)
         )
     );
+  },
+);
   }
   Widget _quranDetail(){
     return BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
@@ -64,13 +66,13 @@ class QuranPlayerPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(quranEntity[index].title,style:
+              Text(quranEntity[context.read<QuranPlayerCubit>().index].title,style:
               const TextStyle(fontWeight: FontWeight.bold,fontSize: 20,)),
               const SizedBox(height: 5,),
-              Text(quranEntity[index].reader,style:
+              Text(quranEntity[context.read<QuranPlayerCubit>().index].reader,style:
               const TextStyle(fontWeight: FontWeight.w400,fontSize: 20,)),
             ],),
-          FavoriteButton(quranEntity: quranEntity[index])
+          FavoriteButton(quranEntity: quranEntity[context.read<QuranPlayerCubit>().index])
         ]);
   },
 );
@@ -93,12 +95,7 @@ class QuranPlayerPage extends StatelessWidget {
               context.read<QuranPlayerCubit>().audioPlayer.seek(Duration(seconds: value.toInt()));
             },
               onChangeEnd: (value) {
-                if(index < quranEntity.length-1){
-                  index++;
-                  context.read<QuranPlayerCubit>().loadQuran(
-                      "${AppURLs.quran}${quranEntity[index].title}_quran.mp3");
-                  context.read<QuranPlayerCubit>().emit(QuranPlayerLoaded());
-                }
+                context.read<QuranPlayerCubit>().nextOrBackQuran(true);
               },
             ),
 
@@ -125,7 +122,7 @@ class QuranPlayerPage extends StatelessWidget {
                 ),
 
                 IconButton(onPressed: () {
-
+                  context.read<QuranPlayerCubit>().nextOrBackQuran(false);
                 }, icon: Icon(Icons.skip_previous_rounded,
                   color: context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground, )),
 
@@ -145,13 +142,15 @@ class QuranPlayerPage extends StatelessWidget {
                 ),
 
                 IconButton(onPressed: () {
-
+                  context.read<QuranPlayerCubit>().nextOrBackQuran(true);
                 }, icon: Icon(Icons.skip_next_rounded,
                   color: context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground, )),
+
                 IconButton(onPressed: () {
                   context.read<QuranPlayerCubit>().isRandom=!context.read<QuranPlayerCubit>().isRandom;
                   context.read<QuranPlayerCubit>().emit(QuranPlayerLoaded());
-                }, icon: Icon(Icons.shuffle_rounded,
+                },
+                  icon: Icon(Icons.shuffle_rounded,
                   color:context.read<QuranPlayerCubit>().isRandom ?
                   context.isDarkMode? AppColors.lightBackground:AppColors.darkBackground :
                   Colors.grey, ),),
