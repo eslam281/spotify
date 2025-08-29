@@ -94,9 +94,6 @@ class QuranPlayerPage extends StatelessWidget {
               onChanged: (value) {
               context.read<QuranPlayerCubit>().audioPlayer.seek(Duration(seconds: value.toInt()));
             },
-              onChangeEnd: (value) {
-                context.read<QuranPlayerCubit>().nextOrBackQuran(true);
-              },
             ),
 
 
